@@ -16,7 +16,7 @@ import './App.css';
 class App extends Component {
     state = {
         searchVal: '',
-        prohibitWords: [{idx:3, word:"asdfasfda"}]
+        prohibitWords: []
     }
 
     handleChange = name => event => {
