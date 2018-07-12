@@ -101,7 +101,6 @@ class App extends Component {
     }
 
     showDeleteProhibitWordDialog = index => {
-        console.log(this.confirmDialog);
         this.confirmDialog.show('삭제하시겠습니까', {
             idx: index
         });
