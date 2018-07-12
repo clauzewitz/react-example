@@ -44,7 +44,9 @@ class ConfirmDialog extends Component {
                     onClose={this.handleCancel}
                     aria-labelledby="confirm-dialog-title"
                     {...other}>
-                    <DialogTitle id="confirm-dialog-title">확인</DialogTitle>
+                    <DialogTitle
+                        id="confirm-dialog-title"
+                        className="custom-dialog">확인</DialogTitle>
                     <DialogContent>
                         <DialogContentText>{this.state.message}</DialogContentText>
                     </DialogContent>

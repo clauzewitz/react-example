@@ -45,7 +45,9 @@ class PromptDialog extends Component {
                     onClose={this.handleCancel}
                     aria-labelledby="prompt-dialog-title"
                     {...other}>
-                    <DialogTitle id="prompt-dialog-title">등록</DialogTitle>
+                    <DialogTitle
+                        id="prompt-dialog-title"
+                        className="custom-dialog">등록</DialogTitle>
                     <DialogContent>
                         <DialogContentText>영단어는 소문자로 등록됩니다</DialogContentText>
                         <TextField
