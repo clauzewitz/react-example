@@ -5,35 +5,34 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 
-class PromptDialog extends Component {
+class ConfirmDialog extends Component {
     state = {
         open: false,
-        word: ''
+        message: '',
+        params: {}
     }
-    show = () => {
+    show = (message, params) => {
         this.setState({
-            open: true
+            open: true,
+            message: message,
+            params: params || {}
         });
     }
     handleOk = () => {
-        this.props.onClose(this.state.word);
+        this.props.onClose(this.state.params);
         this.setState({
             open: false,
-            word: ''
+            message: '',
+            params: {}
         });
     }
     handleCancel = () => {
         this.props.onClose();
         this.setState({
             open: false,
-            word: ''
-        });
-    }
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value
+            message: '',
+            params: {}
         });
     }
     render() {
@@ -43,19 +42,11 @@ class PromptDialog extends Component {
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleCancel}
-                    aria-labelledby="prompt-dialog-title"
+                    aria-labelledby="confirm-dialog-title"
                     {...other}>
-                    <DialogTitle id="prompt-dialog-title">등록</DialogTitle>
+                    <DialogTitle id="confirm-dialog-title">확인</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>영단어는 소문자로 등록됩니다</DialogContentText>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            label="Word"
-                            type="text"
-                            value={this.state.word}
-                            onChange={this.handleChange('word')}
-                            fullWidth/>
+                        <DialogContentText>{this.state.message}</DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleOk} color="primary">
@@ -71,4 +62,4 @@ class PromptDialog extends Component {
     }
 }
 
-export default PromptDialog;
+export default ConfirmDialog;

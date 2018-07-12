@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
+import ConfirmDialog from './ConfirmDialog';
 import PromptDialog from './PromptDialog';
 import Alert from './Alert';
 import Resource from './Resource';
@@ -15,7 +16,7 @@ import './App.css';
 class App extends Component {
     state = {
         searchVal: '',
-        prohibitWords: []
+        prohibitWords: [{idx:3, word:"asdfasfda"}]
     }
 
     handleChange = name => event => {
@@ -41,19 +42,6 @@ class App extends Component {
         );
     }
 
-    deleteProhibitWord = index => {
-        Resource.post('/del.json', {
-            idx: index
-        }).then(
-            result => {
-                this.searchProhibitWord();
-            },
-            error => {
-                this.alert.show("삭제에 실패하였습니다");
-            }
-        );
-    }
-
     addProhibitWord = word => {
         Resource.post('/add.json', {
             word: word
@@ -67,6 +55,17 @@ class App extends Component {
         );
     }
 
+    deleteProhibitWord = params => {
+        Resource.post('/del.json', params).then(
+            result => {
+                this.searchProhibitWord();
+            },
+            error => {
+                this.alert.show("삭제에 실패하였습니다");
+            }
+        );
+    }
+
     renderTableTr = () => {
         if (this.state.prohibitWords && this.state.prohibitWords.length > 0) {
             return this.state.prohibitWords.map(prohibitWord => (
@@ -76,7 +75,7 @@ class App extends Component {
                             <Button
                                 variant="contained"
                                 color="secondary"
-                                onClick={() => this.deleteProhibitWord(prohibitWord.idx)}>
+                                onClick={() => this.showDeleteProhibitWordDialog(prohibitWord.idx)}>
                                 삭제
                             </Button>
                         </td>
@@ -98,6 +97,19 @@ class App extends Component {
     hideAddProhibitWordDialog = value => {
         if (value) {
             this.addProhibitWord(value);
+        }
+    }
+
+    showDeleteProhibitWordDialog = index => {
+        console.log(this.confirmDialog);
+        this.confirmDialog.show('삭제하시겠습니까', {
+            idx: index
+        });
+    }
+
+    hideDeleteProhibitWordDialog = result => {
+        if (result) {
+            this.deleteProhibitWord(result);
         }
     }
 
@@ -159,6 +171,8 @@ class App extends Component {
                         </Grid>
                     </CardContent>
                 </Card>
+                <ConfirmDialog ref={(confirmDialog) => { this.confirmDialog = confirmDialog; }}
+                    onClose={this.hideDeleteProhibitWordDialog}/>
                 <PromptDialog ref={(promptDialog) => { this.promptDialog = promptDialog; }}
                     onClose={this.hideAddProhibitWordDialog}/>
                 <Alert ref={(alert) => { this.alert = alert; }}/>
